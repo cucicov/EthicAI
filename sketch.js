@@ -6,8 +6,8 @@ https://github.com/stc/face-tracking-p5js/008_emotion
 
 */
 
-const DELAY_CHANCE_TEXT = 0.95;
-const TIMEOUT = 20;
+var DELAY_CHANCE_TEXT = 0.95;
+var TIMEOUT = 20;
 
 var timer = 0;
 var currentScene = 0;
@@ -54,8 +54,14 @@ var currentText = "";
 
 var previousHumanText;
 
+var sound;
+
+function preload() {
+  sound = loadSound('assets/tune.wav');
+}
 
 function setup() {
+  sound.loop();
   createCanvas(windowWidth, windowHeight);
   loadCamera();
   loadTracker();
