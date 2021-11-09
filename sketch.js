@@ -6,7 +6,9 @@ https://github.com/stc/face-tracking-p5js/008_emotion
 
 */
 
-var TIMEOUT = 20;
+const DELAY_CHANCE_TEXT = 0.95;
+const TIMEOUT = 20;
+
 var timer = 0;
 var currentScene = 0;
 
@@ -50,8 +52,8 @@ var isAIDialogFinishedRendering = false;
 var isHumanDialogFinishedRendering = false;
 var currentText = "";
 
-var humanText;
-var aiText;
+var previousHumanText;
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -87,7 +89,103 @@ function setup() {
   textFont(digitalFont);
 }
 
-const DELAY_CHANCE_TEXT = 0.95;
+function draw() {
+  clear();
+  if (frameCount % 5 == 0) {
+    backgroundColor = color(red(backgroundColor)+ random(-1, 1),
+        green(backgroundColor) + random(-1, 1),
+        blue(backgroundColor) + random(-1, 1));
+  }
+  background(backgroundColor);
+  calculateBackground();
+
+  // load speech bubbles
+  if (frameCount % 50 == 0) {
+    offsetBubbleAIx = random(0, 5);
+    offsetBubbleAIy = random(0, 5);
+  }
+  if (frameCount % 30 == 0) {
+    offsetBubblePersonX = random(0, 2);
+    offsetBubblePersonY = random(0, 2);
+  }
+  image(bubbleAI, 20 + offsetBubbleAIx, -120 + offsetBubbleAIy);
+  image(pipeSmallPlayer, 400+offsetBubblePersonY, height - 300+offsetBubblePersonX);
+  image(pipeBigPlayer, 1200+offsetBubblePersonX, height - 300+offsetBubblePersonY);
+  image(bubblePlayer, 20, height - 400);
+
+  if (currentScene == 0) {
+    let aiText = "Hello. I'll be your therapist today. \n" +
+        "What would you like to discuss in this \n" +
+        "session?";
+    let humanText = "I'm feeling a little lonely these days. \n\n\n" +
+        "Some othe options?>?>";
+
+
+    if (!isAIDialogFinishedRendering) {
+      setAITextSTyle();
+      isAIDialogFinishedRendering = delayedWriteText(aiText, 100, 140, offsetBubbleAIx, offsetBubbleAIy);
+    } else {
+      setAITextSTyle();
+      text(aiText, 100 + offsetBubbleAIx, 140 + offsetBubbleAIy);
+
+      setHumanTextStyle();
+      if (!isHumanDialogFinishedRendering) {
+        isHumanDialogFinishedRendering = delayedWriteText(humanText, 670, height - 270, 0, 0);
+      } else {
+        setHumanTextStyle();
+        text(humanText, 670, height - 270);
+        image(emoSuprisedBlank, 600, height - 300);
+        image(emoAngryBlank, 610, height - 220);
+        previousHumanText = humanText;
+      }
+    }
+
+  } else if (currentScene == 1) {
+    let aiText = "aaaa aaaa aaaaaaaaaaa s\n" +
+        "aaaaaa aaaaaaa aaaaa!!";
+    let humanText = "just testing stuffz";
+
+
+    if (!isAIDialogFinishedRendering) {
+      setAITextSTyle();
+      isAIDialogFinishedRendering = delayedWriteText(aiText, 100, 140, offsetBubbleAIx, offsetBubbleAIy);
+
+      // keep player options from previous interaction
+      selectOption(0);
+      setHumanTextStyle();
+      text(previousHumanText, 670, height - 270);
+      image(emoSuprisedBlank, 600, height - 300);
+      image(emoAngryBlank, 610, height - 220);
+
+    } else {
+      setAITextSTyle();
+      text(aiText, 100 + offsetBubbleAIx, 140 + offsetBubbleAIy);
+
+      setHumanTextStyle();
+      if (!isHumanDialogFinishedRendering) {
+        isHumanDialogFinishedRendering = delayedWriteText(humanText, 670, height - 270, 0, 0);
+      } else {
+        text(humanText, 670, height - 270);
+        image(emoSadBlank, 600, height - 300);
+        previousHumanText = humanText;
+      }
+    }
+
+  }
+
+  textSize(15);
+
+  getPositions();
+  getEmotions();
+
+  push();
+  translate(30, height - 300);
+  drawPoints();
+  drawEmotionBars();
+  pop();
+    
+}
+
 
 
 function delayedWriteText(fullText, xPos, yPos, xOffset, yOffset) {
@@ -121,172 +219,16 @@ function setHumanTextStyle() {
   fill(0);
 }
 
-function draw() {
-  clear();
-  if (frameCount % 5 == 0) {
-    backgroundColor = color(red(backgroundColor)+ random(-1, 1),
-        green(backgroundColor) + random(-1, 1),
-        blue(backgroundColor) + random(-1, 1));
-  }
-  background(backgroundColor);
-  calculateBackground();
-
-  // load speech bubbles
-  if (frameCount % 50 == 0) {
-    offsetBubbleAIx = random(0, 5);
-    offsetBubbleAIy = random(0, 5);
-  }
-  if (frameCount % 30 == 0) {
-    offsetBubblePersonX = random(0, 2);
-    offsetBubblePersonY = random(0, 2);
-  }
-  image(bubbleAI, 20 + offsetBubbleAIx, -120 + offsetBubbleAIy);
-  image(pipeSmallPlayer, 400+offsetBubblePersonY, height - 300+offsetBubblePersonX);
-  image(pipeBigPlayer, 1200+offsetBubblePersonX, height - 300+offsetBubblePersonY);
-  image(bubblePlayer, 20, height - 400);
-
-  if (currentScene == 0) {
-    aiText = "Hello. I'll be your therapist today. \n" +
-        "What would you like to discuss in this \n" +
-        "session?";
-    humanText = "I'm feeling a little lonely these days. \n\n\n" +
-        "Some othe options?>?>";
-
-
-    if (!isAIDialogFinishedRendering) {
-      setAITextSTyle();
-      isAIDialogFinishedRendering = delayedWriteText(aiText, 100, 140, offsetBubbleAIx, offsetBubbleAIy);
-    } else {
-      setAITextSTyle();
-      text(aiText, 100 + offsetBubbleAIx, 140 + offsetBubbleAIy);
-
-      setHumanTextStyle();
-      if (!isHumanDialogFinishedRendering) {
-        isHumanDialogFinishedRendering = delayedWriteText(humanText, 670, height - 270, 0, 0);
-      } else {
-        setHumanTextStyle();
-        text(humanText, 670, height - 270);
-        image(emoSuprisedBlank, 600, height - 300);
-        image(emoAngryBlank, 610, height - 220);
-      }
-    }
-
-    // if (!isAIDialogFinishedRendering) {
-    //   textFont(digitalFont);
-    //   textSize(30);
-    //   let aiSplit = split(aiText, " ");
-    //   if (wordCountAI < aiSplit.length) {
-    //     if (random(1) > DELAY_CHANCE_TEXT) {
-    //       currentText = "";
-    //       for (ix = 0; ix <= wordCountAI; ix++) {
-    //         currentText += aiSplit[ix];
-    //         currentText += " ";
-    //       }
-    //       wordCountAI++;
-    //     }
-    //     text(currentText, 100 + offsetBubbleAIx, 140 + offsetBubbleAIy);
-    //   } else {
-    //     wordCountAI = 0;
-    //     isAIDialogFinishedRendering = true;
-    //   }
-    // } else {
-    //   textFont(digitalFont);
-    //   textSize(30);
-    //   text(aiText, 100 + offsetBubbleAIx, 140 + offsetBubbleAIy);
-    //
-    //   textFont(humanFont);
-    //   textSize(24);
-    //   fill(0);
-    //   text(humanText1, 670, height - 270);
-    //   image(emoSuprisedBlank, 600, height - 300);
-    // }
-
-  } else if (currentScene == 1) {
-    //  fill(0, 102, 153);
-    // textSize(40);
-    // text("How long have you been feeling \na little lonely these days? ", 100, 140);
-    //
-    // textSize(30);
-    // fill(123, 0, 55);
-    // text("About a month.", 600, height - 250);
-    // image(emoSuprisedBlank, 830, height - 300);
-    let aiText = "aaaa aaaa aaaaaaaaaaa s\n" +
-        "aaaaaa aaaaaaa aaaaa!!";
-    let humanText1 = "just testing stuffz";
-    let humanText2 = "I'm feeling a little lonely these days. \n\n\n" +
-        "Some othe options?>?>";
-
-
-    if (!isAIDialogFinishedRendering) {
-      textFont(digitalFont);
-      textSize(30);
-      fill(0, 102, 153);
-      isAIDialogFinishedRendering = delayedWriteText(aiText, 100, 140, offsetBubbleAIx, offsetBubbleAIy);
-
-      // keep player options from previous interaction
-      textFont(humanFont);
-      textSize(24);
+function selectOption(number) {
+  switch (number) {
+    case 0:
       fill(200, 0, 20, 70);
       noStroke();
       rect(640, height - 300, 500, 45);
-      fill(0);
-      text(humanText2, 670, height - 270);
-      image(emoSuprisedBlank, 600, height - 300);
-      image(emoAngryBlank, 610, height - 220);
-
-    } else {
-      textFont(digitalFont);
-      textSize(30);
-      fill(0, 102, 153);
-      text(aiText, 100 + offsetBubbleAIx, 140 + offsetBubbleAIy);
-
-      textFont(humanFont);
-      textSize(24);
-      fill(0);
-      if (!isHumanDialogFinishedRendering) {
-        isHumanDialogFinishedRendering = delayedWriteText(humanText1, 670, height - 270, 0, 0);
-      } else {
-        text(humanText1, 670, height - 270);
-        image(emoSadBlank, 600, height - 300);
-      }
-    }
-
+      break;
+    default:
+      break;
   }
-  // else if (currentScene == 2) {
-  //   fill(0, 102, 153);
-  //   textSize(40);
-  //   text("Tell me more... ", 100, 140);
-  //
-  //   textSize(30);
-  //   fill(123, 0, 55);
-  //   text("Okay", 600, height - 250);
-  //   image(emoSuprisedBlank, 700, height - 300);
-  //
-  //   text("I am feeling lonely these days", 600, height - 200);
-  //   image(emoSuprisedBlank, 1000, height - 250);
-  //
-  //   text("I'm a little anxious", 600, height - 150);
-  //   image(emoSuprisedBlank, 850, height - 200);
-  //
-  //
-  //   textSize(20);
-  //   text("I have a fear about exams. When I take an exam,\n" +
-  //       "I suddenly have a stomach ache. I could not manage myself \n" +
-  //       "and my heart started beating very fast.", 600, height - 100);
-  //   image(emoSuprisedBlank, 1100, height - 150);
-  // }
-
-  textSize(15);
-
-  getPositions();
-  getEmotions();
-
-  push();
-  translate(30, height - 300);
-  drawPoints();
-  drawEmotionBars();
-  pop();
-    
 }
 
 
