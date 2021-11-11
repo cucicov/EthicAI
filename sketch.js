@@ -22,6 +22,9 @@ var background6;
 
 var bubbleAI;
 var bubblePlayer;
+var bubblePlayerNonEmo1;
+var bubblePlayerNonEmo2;
+var bubblePlayerNonEmo;
 var pipeBigPlayer;
 var pipeSmallPlayer;
 
@@ -56,12 +59,20 @@ var previousHumanText;
 
 var sound;
 
+var isEmotionalPath = true;
+
 function preload() {
   sound = loadSound('assets/tune.wav');
 }
 
 function setup() {
-  sound.loop();
+  // sound.loop();
+  isEmotionalPath = random([true, false]);
+  if (isEmotionalPath) {
+    currentScene = 0;
+  } else {
+    currentScene = 101; //TODO: here randomize first scenario to chose in this way between the routes.
+  }
   createCanvas(windowWidth, windowHeight);
   loadCamera();
   loadTracker();
@@ -77,6 +88,9 @@ function setup() {
 
   bubbleAI = loadImage('assets/ai_bubble.png');
   bubblePlayer = loadImage('assets/player_bubble.png');
+  bubblePlayerNonEmo1 = loadImage('assets/player_bubble_noise1.png');
+  bubblePlayerNonEmo2 = loadImage('assets/player_bubble_noise2.png');
+  bubblePlayerNonEmo = bubblePlayerNonEmo1;
   pipeBigPlayer = loadImage('assets/player_pipe_big.png');
   pipeSmallPlayer = loadImage('assets/player_pipe_small.png');
 
@@ -95,14 +109,18 @@ function setup() {
   textFont(digitalFont);
 }
 
-function draw() {
-  clear();
+function backgroundColorVariation() {
   if (frameCount % 5 == 0) {
-    backgroundColor = color(red(backgroundColor)+ random(-1, 1),
+    backgroundColor = color(red(backgroundColor) + random(-1, 1),
         green(backgroundColor) + random(-1, 1),
         blue(backgroundColor) + random(-1, 1));
   }
   background(backgroundColor);
+}
+
+function draw() {
+  clear();
+  backgroundColorVariation();
   calculateBackground();
 
   // load speech bubbles
@@ -117,7 +135,20 @@ function draw() {
   image(bubbleAI, 20 + offsetBubbleAIx, -120 + offsetBubbleAIy);
   image(pipeSmallPlayer, 400+offsetBubblePersonY, height - 300+offsetBubblePersonX);
   image(pipeBigPlayer, 1200+offsetBubblePersonX, height - 300+offsetBubblePersonY);
-  image(bubblePlayer, 20, height - 400);
+
+  // here set the player bubble for non emotional path.
+  if (isEmotionalPath) {
+    image(bubblePlayer, 20, height - 400);
+  } else {
+    image(bubblePlayerNonEmo, 20, height - 400);
+    if (frameCount % 5 == 0) {
+      if (random(1) > 0.5) {
+        bubblePlayerNonEmo = bubblePlayerNonEmo1;
+      } else {
+        bubblePlayerNonEmo = bubblePlayerNonEmo2;
+      }
+    }
+  }
 
   if (currentScene == 0) {
     let aiText = "Hello. I'll be your therapist today. \n" +
@@ -125,6 +156,7 @@ function draw() {
         "session?";
     let humanText = "I'm feeling a little lonely these days. \n\n\n" +
         "Some othe options?>?>";
+    previousHumanText = humanText;
 
 
     if (!isAIDialogFinishedRendering) {
@@ -142,7 +174,6 @@ function draw() {
         text(humanText, 670, height - 270);
         image(emoSuprisedBlank, 600, height - 300);
         image(emoAngryBlank, 610, height - 220);
-        previousHumanText = humanText;
       }
     }
 
@@ -181,15 +212,16 @@ function draw() {
 
   textSize(15);
 
-  getPositions();
-  getEmotions();
+  if (isEmotionalPath) {
+    getPositions();
+    getEmotions();
 
-  push();
-  translate(30, height - 300);
-  drawPoints();
-  drawEmotionBars();
-  pop();
-    
+    push();
+    translate(30, height - 300);
+    drawPoints();
+    drawEmotionBars();
+    pop();
+  }
 }
 
 
