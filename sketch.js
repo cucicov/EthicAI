@@ -7,8 +7,9 @@ https://github.com/stc/face-tracking-p5js/008_emotion
 */
 
 var DELAY_CHANCE_TEXT = 0.35;// TODO: 0.95 default
-// var DELAY_CHANCE_TEXT = 0.95;
-var TIMEOUT = 200;
+// var DELAY_CHANCE_TEXT = 0.80;
+var TIMEOUT_STEP = 15;
+var TIMEOUT = 15;
 
 var timer = 0;
 var currentScene = 0;
@@ -67,6 +68,8 @@ var sound;
 
 var isEmotionalPath = true;
 
+var isFinalSceneFinalStart = false;
+
 var sceneNavigationSettings = {
   angry: -1,
   sad: -1,
@@ -84,7 +87,7 @@ var EMOTION_HAPPY = 'happy';
 
 var nextButtonRendered;
 
-var finalStartCounter=0;
+var finalStartCounter = 0;
 var DELAY_TILL_FINAL_DIALOG = 300;
 
 let STATIC_BOX_WIDTH = 800;
@@ -133,8 +136,8 @@ function setup() {
   if (isSoundOn) {
     sound.loop();
   }
-  // isEmotionalPath = random([true, false]);//TODO: uncomment
-  isEmotionalPath = true;
+  isEmotionalPath = random([true, false]);//TODO: uncomment
+  // isEmotionalPath = true;
   if (isEmotionalPath) {
     currentScene = 0;
   } else {
@@ -337,9 +340,183 @@ function draw() {
         }
       ]
     };
-    updateSceneNavigation(-1, 3, -1, -1);
+    updateSceneNavigation(-1, 3, -1, 20);
 
     createSceneContent(aiText, settings, humanText, 14, 30);
+  }
+  else if (currentScene == 20) {
+    let aiText = "How are you feeling right now? \n" +
+        "You can always tell me in words as well";
+    let humanText = "\n\n\n" +
+        "Sad\n\n\n" +
+        "\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 300,
+          icon: emoAngryBlank,
+        },
+        {
+          x: 600,
+          y: height - 240,
+          icon: emoSadBlank,
+        },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        {
+          x: 600,
+          y: height - 120,
+          icon: emoHappyBlank,
+        }
+      ]
+    };
+    updateSceneNavigation(-1, 21, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 21) {
+    let aiText = "I'm sorry to hear it.\n" +
+        "I'm wondering is this something that you'd\n" +
+        "like my help with or did you just want to\n" +
+        "get it off your chest? \n\n" +
+        "Both are ok";
+    let humanText = "\n\n\n" +
+        "I'd like some help\n\n\n" +
+        "\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 120,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 300,
+          icon: emoAngryBlank,
+        },
+        {
+          x: 600,
+          y: height - 240,
+          icon: emoSadBlank,
+        },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        {
+          x: 600,
+          y: height - 120,
+          icon: emoHappyBlank,
+        }
+      ]
+    };
+    updateSceneNavigation(-1, 22, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 22) {
+    let aiText = "OK, I'm delighted to help you think through this and I've some \n" +
+        "great tools that can help people feel better. When you're feeling \n" +
+        "low, it can be helpful to understand how your thoughts affect \n" +
+        "your emotions. So we're going to take a close look at your \n" +
+        "thinking to help you feel better. Ok, first choose a specific \n" +
+        "moment in which you felt all of these difficult feelings \n" +
+        "most intensely";
+    let humanText = "\n\n\n" +
+        "My dog passed away last month\n\n\n" +
+        "\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 120,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 300,
+          icon: emoAngryBlank,
+        },
+        {
+          x: 600,
+          y: height - 240,
+          icon: emoSadBlank,
+        },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        {
+          x: 600,
+          y: height - 120,
+          icon: emoHappyBlank,
+        }
+      ]
+    };
+    updateSceneNavigation(-1, 23, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 20);
+  }
+  else if (currentScene == 23) {
+    let aiText = "Ok, do you think there may be any cognitive distortions in this thought?\n" +
+        "Cognitive distortions are unhelpful tricks that we play on ourselves.\n" +
+        "They're errors in thinking that feel 100% true, and they can lead to some\n" +
+        "difficult emotions.\n" +
+        "Learning to identify those distortions is the first step on the\n" +
+        "road to feeling better. Let's see if we can recognize which ones\n" +
+        "are playing a role in this thought. Does it assume that\n" +
+        "there's a never-ending pattern of negativity or defeat in your life?";
+    let humanText = "\n\n\n" +
+        "\n\n\n" +
+        "I'm not sure\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 120,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 300,
+          icon: emoAngryBlank,
+        },
+        {
+          x: 600,
+          y: height - 240,
+          icon: emoSadBlank,
+        },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        {
+          x: 600,
+          y: height - 120,
+          icon: emoHappyBlank,
+        }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 24, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 18);
   }
   else if (currentScene == 3) {
     let aiText = "It is okay to feel alone. You don't have to like it,\n" +
@@ -421,9 +598,203 @@ function draw() {
         // }
       ]
     };
-    updateSceneNavigation(-1, -1, -1, -1);
+    updateSceneNavigation(-1, 5, -1, -1);
 
     createSceneContent(aiText, settings, humanText, 24, 24);
+  }
+  else if (currentScene == 5) {
+    let aiText = "We’re going to look at some of your thoughts and why \n" +
+        "they cause stress, and try to replace them with \n" +
+        "more useful thoughts.\n\n" +
+        "Alright. How did this thought make you feel?";
+    let humanText = "\n\n\n" +
+        "Lonely\n\n" +
+        "\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 80,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        {
+          x: 600,
+          y: height - 240,
+          icon: emoSadBlank,
+        },
+        // {
+        //   x: 600,
+        //   y: height - 180,
+        //   icon: emoSuprisedBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, 6, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 24);
+  }
+  else if (currentScene == 6) {
+    let aiText = "Okay. We’ll try to rethink this thought : \n" +
+        "I am feeling lonely these days. Remember our thoughts \n " +
+        "are not always helpful.\n" +
+        "The reason why our mind focuses on the negative is \n" +
+        "because it wants us to change things for the better. \n" +
+        "What change do you hope for in this case?";
+    let humanText = "\n\n\n" +
+        "\n\n" +
+        "\n\n" +
+        "To focus on the positive memories with my dog.\n\n";
+    let settings = {
+      aiTextXPos: 80,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 180,
+        //   icon: emoSuprisedBlank,
+        // },
+        {
+          x: 600,
+          y: height - 110,
+          icon: emoHappyBlank,
+        }
+      ]
+    };
+    updateSceneNavigation(-1, -1, -1, 7);
+
+    createSceneContent(aiText, settings, humanText, 24, 24);
+  }
+  else if (currentScene == 7) {
+    let aiText = "You have handled difficult situations before, \n" +
+        "and come out stronger. When you thought ‘I am feeling\n" +
+        "lonely these days’, what are some positives about the \n" +
+        "situation or about yourself that you have ignored? \n\n" +
+        "When you thought ‘I am feeling lonely these days’, \n" +
+        "what are some positives about the situation or\n" +
+        "about yourself that you have ignored?";
+    let humanText = "\n\n\n" +
+        "\n\n" +
+        "I don’t find anything positive about the\n" +
+        "situation\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 80,
+      aiTextYPos: 120,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        // {
+        //   x: 600,
+        //   y: height - 110,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 8, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 22);
+  }
+  else if (currentScene == 8) {
+    let aiText = "This is what we got - 'l don't find anything positive  in the situation' and - \n" +
+        "To focus on the positive memories about my dog. Now combine these to \n" +
+        "make a thought that gives you confidence to move forward. \n\n" +
+        "For example, ‘I always fail at relationships’ \n" +
+        "can turn into something like this: ‘i am kind and thoughtful, so I really \n" +
+        "want to have a successful relationship.’\n\n" +
+        "Now you try.";
+    let humanText = "\n\n\n" +
+        "\n\n\n" +
+        "\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 80,
+      aiTextYPos: 110,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: []
+    };
+    updateSceneNavigation(-1, -1, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 20, 18);
+
+    if (!isFinalSceneFinalStart) {
+      finalStartCounter = frameCount;
+      isFinalSceneFinalStart = true;
+    }
+
+    // display info box with survey
+    if (frameCount - finalStartCounter > DELAY_TILL_FINAL_DIALOG) {
+      if (infoBoxWidth < STATIC_BOX_WIDTH) {
+        for (k = 0; k < STATIC_BOX_WIDTH; k++) {
+          if (infoBoxWidth < STATIC_BOX_WIDTH && random(1) > ANIMATION_DELAY_FACTOR) {
+            infoBoxWidth++;
+          }
+          if (infoBoxHeight < STATIC_BOX_HEIGHT && random(1) > ANIMATION_DELAY_FACTOR) {
+            infoBoxHeight++;
+          }
+          rect(width / 2 - (infoBoxWidth / 2), height / 2 - (infoBoxHeight / 2), infoBoxWidth, infoBoxHeight);
+        }
+      } else {
+        rect(width / 2 - (infoBoxWidth / 2), height / 2 - (infoBoxHeight / 2), infoBoxWidth, infoBoxHeight);
+
+        setHumanTextStyle(24);
+        fill(250);
+        let xPos = width/2 - infoBoxWidth/2 + 50;
+        let yPos = height/2 - infoBoxHeight/2 + 50;
+        let fullText = "Thank you for playing the game. You have experienced the emotional bot. \n" +
+            "Please take the survey below regarding your perceived experience(?). //TODO:";
+        if (!isHumanDialogFinishedRendering) {
+          // start rendering human text.
+          isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
+        } else {
+          // after human text is finished rendering, keep human text static rendered.
+          setHumanTextStyle(24);
+          fill(250);
+          text(fullText, xPos, yPos);
+
+          let a = createA('https://forms.gle/Fj8Wjr6f36L7kKQY6', 'take the survey');
+          a.position(width/2 - 10, height/2 + infoBoxHeight/2 - 50);
+          noLoop();
+        }
+      }
+    }
   }
   else if (currentScene == 101) {
     let aiText = "So, how are you doing today?";
@@ -871,7 +1242,7 @@ function draw() {
           fill(250);
           text(fullText, xPos, yPos);
 
-          let a = createA('http://p5js.org/', 'take the survey');
+          let a = createA('https://forms.gle/EBRCPuhCBYTCno6h9', 'take the survey');
           a.position(width/2 - 10, height/2 + infoBoxHeight/2 - 50);
           noLoop();
         }
@@ -886,8 +1257,7 @@ function draw() {
     fill(250);
     let xPos = width/2 - STATIC_BOX_WIDTH/2 + 50;
     let yPos = height/2 - STATIC_BOX_HEIGHT/2 + 50;
-    let fullText = "Thank you for playing the game. You have experienced the non-emotional bot. \n" +
-        "Please take the survey below regarding your perceived experience(?). //TODO:";
+    let fullText = "here comes some short info about the project, i guess..";
     if (!isHumanDialogFinishedRendering) {
       // start rendering human text.
       isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
@@ -1066,6 +1436,22 @@ function selectOption(number) {
 
 
 function decideScene() {
+  console.log("timer:" + timer);
+
+  TIMEOUT = 10;
+  if (sceneNavigationSettings.happy !== -1) {
+    TIMEOUT += TIMEOUT_STEP;
+  }
+  if (sceneNavigationSettings.surprised !== -1) {
+    TIMEOUT += TIMEOUT_STEP;
+  }
+  if (sceneNavigationSettings.angry !== -1) {
+    TIMEOUT += TIMEOUT_STEP;
+  }
+  if (sceneNavigationSettings.sad !== -1) {
+    TIMEOUT += TIMEOUT_STEP;
+  }
+
   if (sceneNavigationSettings.happy !== -1 &&
       predictedEmotions[3] !== undefined
       && predictedEmotions[3].value > predictedEmotions[0].value
@@ -1081,6 +1467,7 @@ function decideScene() {
       console.log('detected happy');
       nextScene(sceneNavigationSettings.happy);
       previousSelectedOption = 3;
+      timer = 0;
     }
   }
 
@@ -1099,6 +1486,7 @@ function decideScene() {
       console.log('detected surprised');
       nextScene(sceneNavigationSettings.surprised);
       previousSelectedOption = 2;
+      timer = 0;
     }
   }
 
