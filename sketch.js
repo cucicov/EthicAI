@@ -6,9 +6,9 @@ https://github.com/stc/face-tracking-p5js/008_emotion
 
 */
 
-var DELAY_CHANCE_TEXT = 0.35;// TODO: 0.95 default
-// var DELAY_CHANCE_TEXT = 0.80;
-var TIMEOUT_STEP = 15;
+// var DELAY_CHANCE_TEXT = 0.35;// TODO: 0.95 default
+var DELAY_CHANCE_TEXT = 0.90;
+var TIMEOUT_STEP = 5;
 var TIMEOUT = 15;
 
 var timer = 0;
@@ -191,6 +191,51 @@ function setup() {
   aboutButton.style("cursor", "pointer");
 }
 
+function displayEmotionalLastDialog() {
+
+  if (!isFinalSceneFinalStart) {
+    finalStartCounter = frameCount;
+    isFinalSceneFinalStart = true;
+  }
+
+  // display info box with survey
+  if (frameCount - finalStartCounter > DELAY_TILL_FINAL_DIALOG) {
+    if (infoBoxWidth < STATIC_BOX_WIDTH) {
+      for (k = 0; k < STATIC_BOX_WIDTH; k++) {
+        if (infoBoxWidth < STATIC_BOX_WIDTH && random(1) > ANIMATION_DELAY_FACTOR) {
+          infoBoxWidth++;
+        }
+        if (infoBoxHeight < STATIC_BOX_HEIGHT && random(1) > ANIMATION_DELAY_FACTOR) {
+          infoBoxHeight++;
+        }
+        rect(width / 2 - (infoBoxWidth / 2), height / 2 - (infoBoxHeight / 2), infoBoxWidth, infoBoxHeight);
+      }
+    } else {
+      rect(width / 2 - (infoBoxWidth / 2), height / 2 - (infoBoxHeight / 2), infoBoxWidth, infoBoxHeight);
+
+      setHumanTextStyle(24);
+      fill(250);
+      let xPos = width / 2 - infoBoxWidth / 2 + 50;
+      let yPos = height / 2 - infoBoxHeight / 2 + 50;
+      let fullText = "Thank you for playing the game. You have experienced the emotional bot. \n" +
+          "Please take the survey below regarding your perceived experience(?). //TODO:";
+      if (!isHumanDialogFinishedRendering) {
+        // start rendering human text.
+        isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
+      } else {
+        // after human text is finished rendering, keep human text static rendered.
+        setHumanTextStyle(24);
+        fill(250);
+        text(fullText, xPos, yPos);
+
+        let a = createA('https://forms.gle/Fj8Wjr6f36L7kKQY6', 'take the survey');
+        a.position(width / 2 - 10, height / 2 + infoBoxHeight / 2 - 50);
+        noLoop();
+      }
+    }
+  }
+}
+
 function draw() {
   clear();
   backgroundColorVariation();
@@ -224,6 +269,7 @@ function draw() {
       }
     }
   }
+
 
 ///// ------- START MAIN CONFIG
   if (currentScene == 0) {// TODO: change to 0
@@ -340,7 +386,7 @@ function draw() {
         }
       ]
     };
-    updateSceneNavigation(-1, 3, -1, 20);
+    updateSceneNavigation(70, 3, 50, 20);
 
     createSceneContent(aiText, settings, humanText, 14, 30);
   }
@@ -358,26 +404,26 @@ function draw() {
       humanTextXPos: 670,
       humanTextYPos: height - 300,
       emoticonPositions: [
-        {
-          x: 600,
-          y: height - 300,
-          icon: emoAngryBlank,
-        },
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
         {
           x: 600,
           y: height - 240,
           icon: emoSadBlank,
         },
-        {
-          x: 600,
-          y: height - 180,
-          icon: emoSuprisedBlank,
-        },
-        {
-          x: 600,
-          y: height - 120,
-          icon: emoHappyBlank,
-        }
+        // {
+        //   x: 600,
+        //   y: height - 180,
+        //   icon: emoSuprisedBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
       ]
     };
     updateSceneNavigation(-1, 21, -1, -1);
@@ -401,26 +447,26 @@ function draw() {
       humanTextXPos: 670,
       humanTextYPos: height - 300,
       emoticonPositions: [
-        {
-          x: 600,
-          y: height - 300,
-          icon: emoAngryBlank,
-        },
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
         {
           x: 600,
           y: height - 240,
           icon: emoSadBlank,
         },
-        {
-          x: 600,
-          y: height - 180,
-          icon: emoSuprisedBlank,
-        },
-        {
-          x: 600,
-          y: height - 120,
-          icon: emoHappyBlank,
-        }
+        // {
+        //   x: 600,
+        //   y: height - 180,
+        //   icon: emoSuprisedBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
       ]
     };
     updateSceneNavigation(-1, 22, -1, -1);
@@ -446,26 +492,26 @@ function draw() {
       humanTextXPos: 670,
       humanTextYPos: height - 300,
       emoticonPositions: [
-        {
-          x: 600,
-          y: height - 300,
-          icon: emoAngryBlank,
-        },
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
         {
           x: 600,
           y: height - 240,
           icon: emoSadBlank,
         },
-        {
-          x: 600,
-          y: height - 180,
-          icon: emoSuprisedBlank,
-        },
-        {
-          x: 600,
-          y: height - 120,
-          icon: emoHappyBlank,
-        }
+        // {
+        //   x: 600,
+        //   y: height - 180,
+        //   icon: emoSuprisedBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
       ]
     };
     updateSceneNavigation(-1, 23, -1, -1);
@@ -482,7 +528,7 @@ function draw() {
         "are playing a role in this thought. Does it assume that\n" +
         "there's a never-ending pattern of negativity or defeat in your life?";
     let humanText = "\n\n\n" +
-        "\n\n\n" +
+        "\n\n" +
         "I'm not sure\n\n\n" +
         "\n\n\n\n" +
         "\n\n";
@@ -492,21 +538,278 @@ function draw() {
       humanTextXPos: 670,
       humanTextYPos: height - 300,
       emoticonPositions: [
-        {
-          x: 600,
-          y: height - 300,
-          icon: emoAngryBlank,
-        },
-        {
-          x: 600,
-          y: height - 240,
-          icon: emoSadBlank,
-        },
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
         {
           x: 600,
           y: height - 180,
           icon: emoSuprisedBlank,
         },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 24, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 18);
+  }
+  else if (currentScene == 24) {
+    let aiText = "That's okay, that's where I can help. The distortion I'm talking about \n" +
+        "here is called overgeneralization It's often associated with words \n" +
+        "like always and never. Even if you're experiencing an isolated \n" +
+        "negative event, you might fear that everything else in life will turn \n" +
+        "out just as badly.\n\n" +
+        "So what do you think?\n\n" +
+        "Is there any overgeneralization in this thought: 'My dog\n" +
+        "passed away last month'";
+    let humanText = "\n\n\n" +
+        "\n\n" +
+        "No\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 110,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 25, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 18);
+  }
+  else if (currentScene == 25) {
+    let aiText = "And does your thought 'My dog' passed \n" +
+        "away last month' contain any black-or-white \n" +
+        "thinking?";
+    let humanText = "\n\n\n" +
+        "\n\n" +
+        "No\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 26, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 26) {
+    let aiText = "That's good, let's keep going. Does your \n" +
+        "thought 'My dog passed away last month' \n" +
+        "assume that others are thinking or \n" +
+        "reacting negatively?";
+    let humanText = "\n\n\n" +
+        "\n\n" +
+        "Nope\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 27, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 27) {
+    let aiText = "Does your thought 'My dog passed away\n" +
+        "last month' place too much blame on you?";
+    let humanText = "\n\n\n" +
+        "\n\n" +
+        "No\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, 28, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 28) {
+    let aiText = "Perhaps it places blame on someone else?\n\n" +
+        "Ok, nice job taking a close look at your\n" +
+        "thought 'My dog passed away last month'";
+    let humanText = "";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        // {
+        //   x: 600,
+        //   y: height - 300,
+        //   icon: emoAngryBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 240,
+        //   icon: emoSadBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 180,
+        //   icon: emoSuprisedBlank,
+        // },
+        // {
+        //   x: 600,
+        //   y: height - 120,
+        //   icon: emoHappyBlank,
+        // }
+      ]
+    };
+    updateSceneNavigation(-1, -1, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+
+    displayEmotionalLastDialog();
+  }
+  else if (currentScene == 50) {
+    let aiText = "What are you anxious about?";
+    let humanText = "\n\n\n\n" +
+        "\n\n\n" +
+        "I have a fear about exams. When I take an exam, I suddenly have a\n" +
+        "stomach ache. I could not manage myself and my heart started beating\n" +
+        "very fast.\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 280,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+      ]
+    };
+    updateSceneNavigation(-1, -1, 51, -1);
+
+    createSceneContent(aiText, settings, humanText, 14, 30);
+  }
+  else if (currentScene == 51) {
+    let aiText = "I am sorry you have to deal with that.\n" +
+        "So, since this is sort of new for both of us...\n" +
+        "Let's spend some time getting to know each \n" +
+        "other.";
+    let humanText = "\n\n\n" +
+        "\n\n\n\n" +
+        "Okay.\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 280,
+      emoticonPositions: [
         {
           x: 600,
           y: height - 120,
@@ -514,9 +817,160 @@ function draw() {
         }
       ]
     };
-    updateSceneNavigation(-1, -1, 24, -1);
+    updateSceneNavigation(-1, -1, -1, 52);
 
-    createSceneContent(aiText, settings, humanText, 24, 18);
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 52) {
+    let aiText = "In know these questions can be difficult to answer, \n" +
+        "so thank you. It’s helpful to know how you’ve\n" +
+        "been, so we can track your progress and \n" +
+        "help you feel better. Now let’s move on to your \n" +
+        "first check-in. \n\n" +
+        "How are you feeling right now?\n\n" +
+        "You can tell me in words as well.";
+    let humanText = "\n\n\n\n\n" +
+        "Anxious\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 110,
+      humanTextXPos: 670,
+      humanTextYPos: height - 280,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+      ]
+    };
+    updateSceneNavigation(-1, -1, 53, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 21);
+  }
+  else if (currentScene == 53) {
+    let aiText = "Gosh, that’s tough. \n" +
+        "I’m sorry to hear it.\n" +
+        "I’m wondering is this something that you’d \n" +
+        "like my help with or did you just want to \n" +
+        "get it off your chest?\n\n" +
+        "Both are okay.";
+    let humanText = "\n\n\n\n\n" +
+        "I’d like some help\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 110,
+      humanTextXPos: 670,
+      humanTextYPos: height - 280,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 180,
+          icon: emoSuprisedBlank,
+        },
+      ]
+    };
+    updateSceneNavigation(-1, -1, 54, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 28);
+  }
+  else if (currentScene == 54) {
+    let aiText = "OK, I’m delighted to help you think through \n" +
+        "this and I’ve some great tools that can \n" +
+        "help people feel better. \n" +
+        "It’s going to take about 10 mins\n" +
+        "though, is that OK?";
+    let humanText = "Nope\n\n\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 110,
+      humanTextXPos: 670,
+      humanTextYPos: height - 280,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 300,
+          icon: emoAngryBlank,
+        },
+      ]
+    };
+    updateSceneNavigation(55, -1, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 28);
+  }
+  else if (currentScene == 55) {
+    let aiText = "Alright, we can always circle back\n" +
+        "to this again.";
+    let humanText = "\n\n\n\n\n" +
+        "\n\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 110,
+      humanTextXPos: 670,
+      humanTextYPos: height - 280,
+      emoticonPositions: []
+    };
+    updateSceneNavigation(-1, -1, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+
+    displayEmotionalLastDialog();
+  }
+  else if (currentScene == 70) {
+    let aiText = "I understand tests and exams can be really \n" +
+        "scary. I am scared of them too.\n\n" +
+        "Are you in a lot of pain?";
+    let humanText = "\n\n\n" +
+        "Just tired\n\n\n" +
+        "\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 240,
+          icon: emoSadBlank,
+        },
+      ]
+    };
+    updateSceneNavigation(-1, 72, -1, -1);
+
+    createSceneContent(aiText, settings, humanText, 24, 30);
+  }
+  else if (currentScene == 72) {
+    let aiText = "It’s hard when the mind is churning. We have aorund 30000\n" +
+        "to 40000 thoughts every day. Not all of them are \n" +
+        "helpful. We can try positivity exercises or get \n" +
+        "active. Both are known to release stress-busting \n" +
+        "hormones.";
+    let humanText = "\n\n\n" +
+        "\n\n\n\n" +
+        "Okay.\n\n";
+    let settings = {
+      aiTextXPos: 100,
+      aiTextYPos: 140,
+      humanTextXPos: 670,
+      humanTextYPos: height - 300,
+      emoticonPositions: [
+        {
+          x: 600,
+          y: height - 120,
+          icon: emoHappyBlank,
+        }
+      ]
+    };
+    updateSceneNavigation(-1, -1, -1, 52);
+
+    createSceneContent(aiText, settings, humanText, 24, 23);
+
   }
   else if (currentScene == 3) {
     let aiText = "It is okay to feel alone. You don't have to like it,\n" +
@@ -754,47 +1208,7 @@ function draw() {
 
     createSceneContent(aiText, settings, humanText, 20, 18);
 
-    if (!isFinalSceneFinalStart) {
-      finalStartCounter = frameCount;
-      isFinalSceneFinalStart = true;
-    }
-
-    // display info box with survey
-    if (frameCount - finalStartCounter > DELAY_TILL_FINAL_DIALOG) {
-      if (infoBoxWidth < STATIC_BOX_WIDTH) {
-        for (k = 0; k < STATIC_BOX_WIDTH; k++) {
-          if (infoBoxWidth < STATIC_BOX_WIDTH && random(1) > ANIMATION_DELAY_FACTOR) {
-            infoBoxWidth++;
-          }
-          if (infoBoxHeight < STATIC_BOX_HEIGHT && random(1) > ANIMATION_DELAY_FACTOR) {
-            infoBoxHeight++;
-          }
-          rect(width / 2 - (infoBoxWidth / 2), height / 2 - (infoBoxHeight / 2), infoBoxWidth, infoBoxHeight);
-        }
-      } else {
-        rect(width / 2 - (infoBoxWidth / 2), height / 2 - (infoBoxHeight / 2), infoBoxWidth, infoBoxHeight);
-
-        setHumanTextStyle(24);
-        fill(250);
-        let xPos = width/2 - infoBoxWidth/2 + 50;
-        let yPos = height/2 - infoBoxHeight/2 + 50;
-        let fullText = "Thank you for playing the game. You have experienced the emotional bot. \n" +
-            "Please take the survey below regarding your perceived experience(?). //TODO:";
-        if (!isHumanDialogFinishedRendering) {
-          // start rendering human text.
-          isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
-        } else {
-          // after human text is finished rendering, keep human text static rendered.
-          setHumanTextStyle(24);
-          fill(250);
-          text(fullText, xPos, yPos);
-
-          let a = createA('https://forms.gle/Fj8Wjr6f36L7kKQY6', 'take the survey');
-          a.position(width/2 - 10, height/2 + infoBoxHeight/2 - 50);
-          noLoop();
-        }
-      }
-    }
+    displayEmotionalLastDialog();
   }
   else if (currentScene == 101) {
     let aiText = "So, how are you doing today?";
@@ -1288,12 +1702,36 @@ function draw() {
   }
 
   if (isEmotionalPath) {
-    fill(200, 0, 20, 10);
     noStroke();
+    fill(200, 0, 20, 10);
     rect(640, height - 310, 500, 60);
+    if (activeEmotion == EMOTION_ANGRY) {
+      fill(200, 0, 20, 70);
+      rect(640, height - 310, 500*(timer/TIMEOUT), 60);
+    }
+
+    fill(200, 0, 20, 10);
     rect(640, height - 245, 500, 60);
+    if (activeEmotion == EMOTION_SAD) {
+      fill(200, 0, 20, 70);
+      rect(640, height - 245, 500*(timer/TIMEOUT), 60);
+    }
+
+    fill(200, 0, 20, 10);
     rect(640, height - 180, 500, 60);
+    if (activeEmotion == EMOTION_SURPRISED) {
+      fill(200, 0, 20, 70);
+      rect(640, height - 180, 500*(timer/TIMEOUT), 60);
+    }
+
+    fill(200, 0, 20, 10);
     rect(640, height - 115, 500, 60);
+    if (activeEmotion == EMOTION_HAPPY) {
+      fill(200, 0, 20, 70);
+      rect(640, height - 115, 500*(timer/TIMEOUT), 60);
+    }
+
+    // display emotion bar
   }
 }
 
@@ -1436,20 +1874,19 @@ function selectOption(number) {
 
 
 function decideScene() {
-  console.log("timer:" + timer);
 
-  TIMEOUT = 10;
+  TIMEOUT = 60;
   if (sceneNavigationSettings.happy !== -1) {
-    TIMEOUT += TIMEOUT_STEP;
+    TIMEOUT -= TIMEOUT_STEP;
   }
   if (sceneNavigationSettings.surprised !== -1) {
-    TIMEOUT += TIMEOUT_STEP;
+    TIMEOUT -= TIMEOUT_STEP;
   }
   if (sceneNavigationSettings.angry !== -1) {
-    TIMEOUT += TIMEOUT_STEP;
+    TIMEOUT -= TIMEOUT_STEP;
   }
   if (sceneNavigationSettings.sad !== -1) {
-    TIMEOUT += TIMEOUT_STEP;
+    TIMEOUT -= TIMEOUT_STEP;
   }
 
   if (sceneNavigationSettings.happy !== -1 &&
@@ -1634,19 +2071,15 @@ function nextScene(scene) {
 
 function keyPressed() {
   if (key == "1") {
-    console.log('detected angry');
     nextScene(sceneNavigationSettings.angry);
     previousSelectedOption = 0;
   } else if (key == "2") {
-    console.log('detected sad');
     nextScene(sceneNavigationSettings.sad);
     previousSelectedOption = 1;
   } else if (key == "3") {
-    console.log('detected surprised');
     nextScene(sceneNavigationSettings.surprised);
     previousSelectedOption = 2;
   } else if (key == "4") {
-    console.log('detected happy');
     nextScene(sceneNavigationSettings.happy);
     previousSelectedOption = 3;
   }
