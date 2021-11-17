@@ -4,6 +4,10 @@ https://github.com/stc/face-tracking-p5js/008_emotion
 
 (c) 2018 Agoston Nagy / gpl v3
 
+Updated for the game 'Hi! How can AI help you?' by Dorin Cucicov 2021
+gpl v3
+https://github.com/cucicov/EthicAI
+
 */
 
 // var DELAY_CHANCE_TEXT = 0.35;// TODO: 0.95 default
@@ -29,6 +33,12 @@ var bubblePlayerNonEmo2;
 var bubblePlayerNonEmo;
 var pipeBigPlayer;
 var pipeSmallPlayer;
+
+var tutorialAiBubble;
+var tutorialChoose;
+var tutorialPlayerBubble;
+var tutorialPlayerBubble2;
+var tutorialStartButton;
 
 var emoSad;
 var emoHappy;
@@ -99,6 +109,10 @@ let ANIMATION_DELAY_FACTOR = 0.95;
 let isSoundOn = false;
 let isAboutOn = false;
 
+let isTutorialOn = true;
+let startButton;
+
+
 function preload() {
   sound = loadSound('assets/tune.wav');
 
@@ -117,6 +131,12 @@ function preload() {
   bubblePlayerNonEmo = bubblePlayerNonEmo1;
   pipeBigPlayer = loadImage('assets/player_pipe_big.png');
   pipeSmallPlayer = loadImage('assets/player_pipe_small.png');
+
+  tutorialAiBubble = loadImage('assets/tutorial_ai_bubble.png');
+  tutorialChoose = loadImage('assets/tutorial_choose.png');
+  tutorialPlayerBubble = loadImage('assets/tutorial_player_bubble.png');
+  tutorialPlayerBubble2 = loadImage('assets/tutorial_player_bubble_2.png');
+  tutorialStartButton = loadImage('assets/tutorial_start_button.png');
 
   emoSad = loadImage('assets/emoticons_sad.png');
   emoAngry = loadImage('assets/emoticons_angry.png');
@@ -217,8 +237,9 @@ function displayEmotionalLastDialog() {
       fill(250);
       let xPos = width / 2 - infoBoxWidth / 2 + 50;
       let yPos = height / 2 - infoBoxHeight / 2 + 50;
-      let fullText = "Thank you for playing the game. You have experienced the emotional bot. \n" +
-          "Please take the survey below regarding your perceived experience(?). //TODO:";
+      let fullText = "The interaction part is over. Thank you for your active participation. \n" +
+          "Could you please take the survey below regarding your interaction with the bot?\n\n" +
+          "You can also leave any feedback at the link below.";
       if (!isHumanDialogFinishedRendering) {
         // start rendering human text.
         isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
@@ -229,7 +250,9 @@ function displayEmotionalLastDialog() {
         text(fullText, xPos, yPos);
 
         let a = createA('https://forms.gle/Fj8Wjr6f36L7kKQY6', 'take the survey');
-        a.position(width / 2 - 10, height / 2 + infoBoxHeight / 2 - 50);
+        a.position(width / 2 - 100, height / 2 + infoBoxHeight / 2 - 50);
+        let b = createA('https://howcanaihelpyou.com/feedback', 'leave feedback');
+        b.position(width/2 + 100, height/2 + infoBoxHeight/2 - 50);
         noLoop();
       }
     }
@@ -1627,6 +1650,12 @@ function draw() {
     nextButton.remove();
 
     // display info box with survey
+
+    if (!isFinalSceneFinalStart) {
+      finalStartCounter = frameCount;
+      isFinalSceneFinalStart = true;
+    }
+
     if (frameCount - finalStartCounter > DELAY_TILL_FINAL_DIALOG) {
       if (infoBoxWidth < STATIC_BOX_WIDTH) {
         for (k = 0; k < STATIC_BOX_WIDTH; k++) {
@@ -1645,8 +1674,9 @@ function draw() {
         fill(250);
         let xPos = width/2 - infoBoxWidth/2 + 50;
         let yPos = height/2 - infoBoxHeight/2 + 50;
-        let fullText = "Thank you for playing the game. You have experienced the non-emotional bot. \n" +
-            "Please take the survey below regarding your perceived experience(?). //TODO:";
+        let fullText = "The interaction part is over. Thank you for your active participation. \n" +
+            "Could you please take the survey below regarding your interaction with the bot?\n\n" +
+            "You can also leave any feedback at the link below.";
         if (!isHumanDialogFinishedRendering) {
           // start rendering human text.
           isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
@@ -1657,7 +1687,9 @@ function draw() {
           text(fullText, xPos, yPos);
 
           let a = createA('https://forms.gle/EBRCPuhCBYTCno6h9', 'take the survey');
-          a.position(width/2 - 10, height/2 + infoBoxHeight/2 - 50);
+          a.position(width/2 - 100, height/2 + infoBoxHeight/2 - 50);
+          let b = createA('https://howcanaihelpyou.com/feedback', 'leave feedback');
+          b.position(width/2 + 100, height/2 + infoBoxHeight/2 - 50);
           noLoop();
         }
       }
@@ -1667,23 +1699,21 @@ function draw() {
   if (isAboutOn) {
     rect(width / 2 - (STATIC_BOX_WIDTH / 2), height / 2 - (STATIC_BOX_HEIGHT / 2), STATIC_BOX_WIDTH, STATIC_BOX_HEIGHT);
 
-    setHumanTextStyle(24);
+    setHumanTextStyle(18);
     fill(250);
     let xPos = width/2 - STATIC_BOX_WIDTH/2 + 50;
     let yPos = height/2 - STATIC_BOX_HEIGHT/2 + 50;
-    let fullText = "here comes some short info about the project, i guess..";
-    if (!isHumanDialogFinishedRendering) {
-      // start rendering human text.
-      isHumanDialogFinishedRendering = delayedWriteText(fullText, xPos, yPos, 0, 0);
-    } else {
-      // after human text is finished rendering, keep human text static rendered.
-      setHumanTextStyle(24);
+    let fullText = "This game is an exploration ofhe most popular mental health chatbots and their abilities to emotionally \n" +
+        "connect with a human. \n\n" +
+        "These dialogs were generated by talking to the most popular chatbots for therapy as well as \n" +
+        "non-specialized bots.\n\n" +
+        "This project is part of Goethe Institut's EthicAI=LABS.\n\n" +
+        "Developed by Busra Sarigul, Dorin Cucicov, Tsvetomila Mihaylova.\n" +
+        "Face tracking and emotion recognition by Agoston Nagy (https://github.com/stc/face-tracking-p5js)\n" +
+        "Code for the game available at https://github.com/cucicov/EthicAI";
+      setHumanTextStyle(18);
       fill(250);
       text(fullText, xPos, yPos);
-
-      // let a = createA('http://p5js.org/', 'take the survey');
-      // a.position(width/2 - 10, height/2 + STATIC_BOX_HEIGHT/2 - 50);
-    }
   } else {
 
   }
@@ -1733,6 +1763,37 @@ function draw() {
 
     // display emotion bar
   }
+
+  if (isTutorialOn) {
+    noLoop();
+
+    fill(0, 0, 0, 120);
+    rect(0, 0, width, height);
+
+    startButton = createButton("start game");
+    startButton.mouseClicked(function () {
+      isTutorialOn = false;
+      loop();
+    });
+    startButton.size(120, 40);
+    startButton.position(width/2 - 35, height/2-10);
+    startButton.style("font-size", "18px");
+    startButton.style("border", "0px");
+    startButton.style("background", "#000");
+    startButton.style("color", "white");
+    startButton.style("cursor", "pointer");
+
+    image(tutorialAiBubble, 600, 200);
+    image(tutorialStartButton, width/2 - 350, height/2 - 30);
+    image(tutorialPlayerBubble2, 900, height - 450);
+    if (isEmotionalPath) {
+      image(tutorialPlayerBubble, 20, height - 400);
+      image(tutorialChoose, 970, height - 380);
+    }
+  } else {
+    startButton.remove();
+  }
+
 }
 
 
@@ -2070,16 +2131,16 @@ function nextScene(scene) {
 }
 
 function keyPressed() {
-  if (key == "1") {
+  if (key == "7") {
     nextScene(sceneNavigationSettings.angry);
     previousSelectedOption = 0;
-  } else if (key == "2") {
+  } else if (key == "8") {
     nextScene(sceneNavigationSettings.sad);
     previousSelectedOption = 1;
-  } else if (key == "3") {
+  } else if (key == "9") {
     nextScene(sceneNavigationSettings.surprised);
     previousSelectedOption = 2;
-  } else if (key == "4") {
+  } else if (key == "0") {
     nextScene(sceneNavigationSettings.happy);
     previousSelectedOption = 3;
   }
