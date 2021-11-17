@@ -100,8 +100,8 @@ var nextButtonRendered;
 var finalStartCounter = 0;
 var DELAY_TILL_FINAL_DIALOG = 300;
 
-let STATIC_BOX_WIDTH = 800;
-let STATIC_BOX_HEIGHT = 400;
+let STATIC_BOX_WIDTH = 900;
+let STATIC_BOX_HEIGHT = 350;
 let infoBoxWidth = 0;
 let infoBoxHeight = 0;
 let ANIMATION_DELAY_FACTOR = 0.95;
@@ -171,8 +171,8 @@ function setup() {
   backgroundColor = color(128, 128, 128);
 
   textFont(digitalFont);
-  STATIC_BOX_WIDTH = (width/3) * 2;
-  STATIC_BOX_HEIGHT = height/3;
+  // STATIC_BOX_WIDTH = (width/3) * 2;
+  // STATIC_BOX_HEIGHT = height/3;
 
   // sound button
   let soundButton = createButton("sound");
@@ -1783,12 +1783,12 @@ function draw() {
     startButton.style("color", "white");
     startButton.style("cursor", "pointer");
 
-    image(tutorialAiBubble, 600, 200);
+    image(tutorialAiBubble, 600, 50);
     image(tutorialStartButton, width/2 - 350, height/2 - 30);
-    image(tutorialPlayerBubble2, 900, height - 450);
+    image(tutorialPlayerBubble2, 900, height - 290);
     if (isEmotionalPath) {
-      image(tutorialPlayerBubble, 20, height - 400);
-      image(tutorialChoose, 970, height - 380);
+      image(tutorialPlayerBubble, 20, height - 260);
+      image(tutorialChoose, 900, height - 120);
     }
   } else {
     startButton.remove();
